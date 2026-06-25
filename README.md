@@ -173,7 +173,7 @@ The millisecond an overlapping, contradictory instruction set attempts to claim 
 
 ### 2.4 Fault Isolation & Karantine Protocol (Runtime Sandbox Isolation & Hot-Swap)
 A foundational vulnerability of monolithic software suites and single-process AI engines is that a singular logic error, unhandled exception, or memory leak within a minor submodule induces a cascading system failure, freezing the entire application or physical machine. MAEYAS bypasses this structural single-point-of-failure risk by enforcing **Runtime Sandbox Isolation** and a strict **Karantine Protocol** adapted from enterprise cybersecurity design patterns.
-
+```
 [ Core AI Layer (Coordinator) ]
 │
 ┌──────────────┴──────────────┐ (Fault Isolation Boundary)
@@ -190,7 +190,7 @@ A foundational vulnerability of monolithic software suites and single-process AI
 │  - Purge Process        │
 │  - Hot-Swap Backup      │
 └─────────────────────────┘
-
+```
 
 The error containment and self-healing mechanisms operate as follows:
 * **Hardware-Enforced Runtime Sandboxing:** When the Coordinator invokes a module to RAM, that agent is explicitly prohibited from directly accessing the underlying operating system kernel or the core architecture files. Each module executes within an isolated container bounded at the hardware abstraction level. The agent's address space is strictly confined to its sandbox.
@@ -203,7 +203,7 @@ The error containment and self-healing mechanisms operate as follows:
 
 ### 2.5 Memory Architecture (Active Session Buffer, Asynchronous Summarizer, and Layered Storage)
 One of the primary processing bottlenecks in traditional AI systems is the linear accumulation of tokens as a conversation or operational runtime scales. Monolithic models are forced to re-read the entire historical log for every single new input token, which exponentially inflates compute overhead and system latency. MAEYAS bypasses this hardware strain by segmenting memory into distinct operational layers and offloading context compression to an asynchronous backend pipeline.
-
+```
 ┌────────────────────────────────────────────────────────┐
 │             Active Session Buffer (Hot RAM)            │ <-- Max 2000 Words
 └──────────────────────────┬─────────────────────────────┘
@@ -217,7 +217,7 @@ One of the primary processing bottlenecks in traditional AI systems is the linea
 ┌────────────────────────────────────────────────────────┐
 │         Layered Encrypted Storage (Cold Disk)          │ <-- Spatial Semantic Graph Memory
 └────────────────────────────────────────────────────────┘
-
+```
 
 The memory architecture is governed by three distinct structural layers:
 * **Layer 1: Active Session Buffer (Hot RAM Layer):** This layer acts as the immediate execution buffer where the user's ongoing interactions are preserved as raw textual inputs for precise context alignment. To optimize memory efficiency, a strict **Token Threshold Constraint** (e.g., a maximum allocation of 2,000 words) is enforced. Inputs within this boundary bypass compression to guarantee ultra-fast runtime operations.
@@ -234,7 +234,7 @@ To dynamically manage processing loads, memory routing utilizes a three-tier gea
 Traditional relational databases ($SQL$) model data as row-based arrays that require complex, recursive operations like *JOINs* to resolve relationships, while flat-file vector databases introduce high processing taxes ($CPU/GPU$ overhead) during high-dimensional index sorting. When a local edge device scales its data store into terabyte thresholds, linear indexing scans completely degrade the real-time reflexes required for hardware systems.
 
 MAEYAS solves this search scalability crisis by implementing a native **Spatial Semantic Graph Memory** pipeline that mirrors biological synaptic addressing.
-
+```
 rust
 // Core Data Structs for Graph Engine Implementation (Rust)
 struct SemanticNode {
@@ -250,7 +250,7 @@ struct SynapticEdge {
     weight: f32,                // Synaptic conductance value range [0.0, 1.0]
     last_triggered: u64,        // Unix timestamp for adaptive decay computation
 }
-
+```
 The underlying data model relies on the following structural and indexing parameters:
 
     Direct Pointer Saccades via Raw Memory Addressing (O(1) Complexity): When an explicit entity or conceptual token is invoked (e.g., "Hardened Steel Nozzle"), the system locates its active pointer directly within host memory. The node data structure embeds explicit raw pointer references that map directly to the sector blocks where neighboring associated data resides (e.g., "Bambu Lab P1S," "PLA Filament"). The database does not execute full-table linear indexing searches; instead, the runtime follows the pointer addresses directly, bounding search time complexity to an absolute constant:
@@ -288,8 +288,8 @@ MAEYAS structural optimization is managed via the following deterministic execut
 
 2.8 Semantic Core & Common Data Contract (Language-Agnostic JSON Schema)
 
-A major integration failure point in modular computing frameworks occurs when micro-modules developed by disparate engineers across distinct codebases experience data serialization corruption or runtime type mismatches during execution. If an upstream module pipes a data packet whose topology cannot be resolved by the subsequent downstream agent, the execution thread panics, leading to runtime system failures. MAEYAS mitigates this integration friction by establishing a strict, immutable Global API Contract enforced via standardized JSON Schema validation barriers at every module entrance.
-
+A major integration failure point in modular computing frameworks occurs when micro-modules developed by disparate engineers across distinct codebases experience data serialization corruption or runtime type mismatches during execution. If an upstream module pipes a data packet whose topology cannot be resolved by the subsequent downstream agent, the execution thread panics, leading to runtime system failures. MAEYAS mitigates this integration friction by establishing a strict, immutable Global API Contract enforced via standardized JSON Schema validation barriers at every module entrance. 
+```
   [ Coordinator Output ]
             │
             ▼ (JSON Packet Stream)
@@ -304,7 +304,7 @@ A major integration failure point in modular computing frameworks occurs when mi
   │  Target Agent   │       │ Runtime Exception │
   │ Sandbox Container│      │ Fault Isolation   │
   └─────────────────┘       └───────────────────┘
-
+```
 The data exchange and module interaction layer operates under the following engineering parameters:
 
     Decoupled Data-Centric Communication Architecture: Micro-agents are completely abstracted away from the inner source code, compiling pipelines, and native languages (e.g., Rust, Python, C++, WebAssembly) of neighboring modules. System modules remain structurally independent. The sole binding factor between runtime components is the interface specifications defined at their ingress and egress doors.
@@ -312,7 +312,7 @@ The data exchange and module interaction layer operates under the following engi
     Standardized Common Vocabulary: The Coordinator does not stream raw, unparsed string expressions directly to individual agents. It decomposes and standardizes user inputs into structural, highly serialized JSON payloads. Active modules ingest these predictable schemas and output similarly structured packages.
 
     Canonical Schema Payload Example: When a user issues a command such as "The workspace is too dark," the Coordinator normalizes the semantic intent into the following immutable transaction schema:
-
+```
 JSON
 
 {
@@ -321,7 +321,7 @@ JSON
   "context": { "topic": "lighting", "sentiment": "neutral" },
   "entities": [ { "name": "darkness", "weight": 0.9 } ]
 }
-
+```
 Any executing sensor arrays or home automation modules can instantly consume this standardized envelope, parsing the "intent" and "entities" parameters without requiring knowledge of the upstream engine's core mechanics.
 
     Backward-Compatible Modular Interoperability: Even if a developer updates a custom Sentiment Analysis Module from version 1.0 to 2.0, as long as the module respects the invariant JSON Schema signature at its ingress/egress boundaries, it maintains absolute drop-in compatibility with older legacy drivers running down the chain. This completely eliminates versioning friction or breaking integration changes.
@@ -363,7 +363,7 @@ JSON
 3.1 IP-Based Contextual Memory & Edge AI Isolation
 
 Traditional artificial intelligence architectures rely on a centralized computing pipeline, transferring a user's entire repository of personal telemetry, location data, granular interaction logs, and public IP footprints directly to remote cloud clusters. This workflow structurally dismantles data privacy, exposing the user to severe data breaches, corporate metadata harvesting, and persistent surveillance. MAEYAS mitigates this systemic security vulnerability by enforcing Absolute Edge AI Isolation backed by an IP-Based Contextual Memory Partitioning model.
-
+```
   [ Local Network (LAN) ]
              │
       ┌──────┴──────┐
@@ -378,7 +378,7 @@ Traditional artificial intelligence architectures rely on a centralized computin
 │  - Isolated Cryptic Cells   │ (Edge AI Boundary)
 │  - Cross-Leak Prevention    │
 └─────────────────────────────┘
-
+```
 The localized protection and network defense mechanisms operate under the following security matrices:
 
     Zero-Cloud Dependency (Absolute Offline Execution): The core routing matrix (Coordinator), the spatial synaptic graph database, the ingress validation firewall (Checker), and the entire micro-agent ecosystem execute natively within the perimeter of the user's physical host hardware (e.g., local workstation, embedded server, or robotic chassis). The framework is architecturally isolated to sustain operational peak benchmarks even when network interfaces are entirely severed, ensuring data never crosses the boundary of the local asset.
@@ -428,7 +428,7 @@ The system's cryptographic blindness and reverse-engineering defenses operate un
 3.4 Data Integrity Verification (Pre-Runtime SHA-256 Validation & Self-Destruct)
 
 A major attack vector in modular software infrastructures involves malicious code injection, where localized malware modifies an authenticated agent's on-disk binary files to insert malicious logic streams. If the host ecosystem blindly maps these compromised files into RAM during runtime orchestration, the entire connected robotic infrastructure or home automation mesh can be subverted from within. MAEYAS prevents this injection vector by implementing a deterministic Pre-Runtime SHA-256 Hash Verification gateway coupled with an automated Self-Destruct Protocol.
-
+```
        [ Coordinator Invokes Agent ]
                      │
                      ▼
@@ -446,7 +446,7 @@ A major attack vector in modular software infrastructures involves malicious cod
    └─────────────────┘       │  - Purge Corrupted File │
                              │  - Hot-Swap Clean Copy  │
                              └─────────────────────────┘
-
+```
 The data integrity protection framework functions through the following mechanisms:
 
     Cryptographic Fingerprint Registry: Upon initial installation, marketplace download, or dynamic edge synthesis, the system computes a unique cryptographic checksum for every micro-agent's code array, internal weights, and schema configuration using the SHA-256 algorithm. These immutable fingerprints are cataloged within a heavily hardened, encrypted master table inside the Core Registry.
@@ -466,7 +466,7 @@ The data integrity protection framework functions through the following mechanis
 3.5 Shadow Agent, Mirror Maze, and Automated Ban Mechanics (The Honeypot Layer)
 
 Conventional artificial intelligence deployments handle prompt injections, malicious fuzzing attempts, or security alignment breaches (jailbreaks) by returning a static, hardcoded refusal string: "I am sorry, but I cannot fulfill this request." From a cybersecurity standpoint, this approach is deeply flawed; it provides the threat actor with immediate, actionable feedback, allowing them to systematically map the boundaries and filtering behaviors of the engine through trial-and-error input testing. MAEYAS eliminates this vulnerability by implementing an active counter-intelligence mesh consisting of a Shadow Agent and a Sandbox Honeypot Mirror Maze.
-
+```
        [ Adversarial Input / Jailbreak Detected ]
                            │
                            ▼ (Silent Ingress Intercept)
@@ -480,7 +480,7 @@ Conventional artificial intelligence deployments handle prompt injections, malic
              │  - Shadow Agent Engine    │
              │  - Synthetic Responses    │
              └───────────────────────────┘
-
+```
 The active cyber defense and adversarial containment infrastructure operates via the following execution patterns:
 
     Silent Egress Redirection: The moment a user transmits a prompt injection payload, an obfuscated exploit package, or a severe behavioral alignment bypass through the Ingress Filter, the system avoids generating a high-visibility security alert or connection tear-down. Instead, the routing layer silently traps the execution thread and routes the user session directly into an isolated Sandbox Honeypot.
@@ -512,7 +512,7 @@ The cryptographic delay valves and psychological safety loops operate under the 
 3.7 Critical Boundary Constraints & Emergency Response Protocols (The Risk Agent)
 
 While MAEYAS is architected to maximize absolute user autonomy, developer expression, and intellectual sovereignty, it establishes definitive, non-bypassable structural boundaries to prevent the ecosystem from being leveraged as a planning, optimization, or execution platform for severe criminal syndication, mass casualties, or active self-harm trajectories. Rather than deploying clumsy, surface-level moral lecturing frameworks that break down under simple prompt modifications, the architecture integrates a completely independent, passive surveillance sentinel known as the Risk Agent.
-
+```
                 [ Outgoing Semantic JSON Packet ]
                                 │
                                 ▼
@@ -524,12 +524,12 @@ While MAEYAS is architected to maximize absolute user autonomy, developer expres
                ▼ (Severe Boundary Breach)        ▼ (Nominal Flow)
 ┌──────────────────────────────────────────────┐┌────────────────┐
 │           Emergency Protocol Alpha           ││ Pass to Target │
-│ - Halts Conversation Loop                    ││ Module Runtime│
-│ - Spins Shadow Agent (Illusion Maze)          │└────────────────┘
+│ - Halts Conversation Loop                    ││ Module Runtime │
+│ - Spins Shadow Agent (Illusion Maze)         │└────────────────┘
 │ - Assembles Cryptographic Forensic Payload   │
-│ - Deploys Anonymous Proxy WAN Telemetry Sync  │
+│ - Deploys Anonymous Proxy WAN Telemetry Sync │
 └──────────────────────────────────────────────┘
-
+```
 The localized threat parsing and automated emergency response protocols operate under the following parameters:
 
     Passive Observation and Non-Intrusive Extraction: The Risk Agent operates as an isolated, asynchronous system process that monitors the standardized outgoing semantic JSON schema streams passed down by the Coordinator. Under nominal conditions, the module consumes near-zero processing overhead and exerts 0% control over the system's execution pipeline, ensuring unhindered dialogue expressiveness. However, the microsecond a transaction payload breaches one of two designated critical thresholds, the Risk Agent transitions instantly into an active containment state.
@@ -568,7 +568,7 @@ The mobile communication topology and user interface layers operate under the fo
 4.2 Visual Flow Canvas (Node-Based Visual Pipeline Infrastructure)
 
 A core tenet of the MAEYAS philosophy is the complete democratization of artificial intelligence systems, removing operational controls from corporate silos and making the pipeline transparent to the final operator. The user must maintain absolute clarity regarding which modules are actively mining runtime data, how information transitions through specific agents, and possess the capability to hot-swap pipelines without writing a single line of raw code. The architecture delivers this transparency via an interactive Node-Based Visual Flow Canvas interface.
-
+```
   ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
   │ Audio In (Node) │       │ Sentiment (Node)│       │ If-Else (Node)  │
   │ [Output Port]───┼──────►│[Input]  [Output]┼──────►│[Input]  [Outputs]
@@ -579,7 +579,7 @@ A core tenet of the MAEYAS philosophy is the complete democratization of artific
                                                       │Kinematics (Node)│
                                                       │ [Reflex Trigger]│
                                                       └─────────────────┘
-
+```
 The functional and software mechanics of the visual flow canvas are structured as follows:
 
     Modular Node Anatomy: Every functional component within the graphical canvas represents an independent micro-agent running inside the system backend. Individual nodes feature discrete Input Ports on their left margins and Output Ports on their right margins. These access gates map directly to the strict type assertions governed by the global JSON Schema contract.
@@ -609,7 +609,7 @@ The physical audio signal ingestion and voice processing layers adhere to the fo
 4.4 Extension Marketplace & Hardware Resource Allocator (The Resource Quota Manager)
 
 In an aggressively modular, sandbox-enforced architecture, a primary systemic risk involves resource exhaustion. If an operator continuously populates the visual canvas with multiple third-party marketplace agents or scales active concurrent containers, the host machine's RAM and processing (CPU/GPU) allocations can bottleneck, locking up the platform. MAEYAS resolves this hardware crisis by deploying a decentralized Marketplace infrastructure alongside an aggressive, strict runtime supervisor known as the Resource Quota Manager.
-
+```
                 [ Local Workstation / Embedded RAM ]
                                  │
            ┌─────────────────────┴─────────────────────┐
@@ -623,10 +623,10 @@ In an aggressively modular, sandbox-enforced architecture, a primary systemic ri
                                                            ▼ (Forced Terminate)
                                             ┌──────────────────────────────┐
                                             │    Resource Quota Manager    │
-                                            │   - Hard Hardware Clamp     │
+                                            │   - Hard Hardware Clamp      │
                                             │   - Flash Memory Zero-Fill   │
                                             └──────────────────────────────┘
-
+```
 The extension registry and hardware resource governance operate under the following specifications:
 
     Plug-and-Play Decentralized Module Marketplace: Every micro-module compiled by the development community and validated via SHA-256 integrity checkmarks is indexed within a decentralized marketplace. Users dynamically scale system capabilities based on their domain needs (e.g., downloading agricultural plant protection diagnostics, custom electronic drivers, or specialized automation hooks). These extensions are hot-swapped into the running core ecosystem without initiating a system restart or dropping active execution threads.
@@ -667,7 +667,7 @@ The autonomous context-gathering and localized environmental sensing operations 
 5.2 Fractionalized Output Delivery (Asynchronous Thought Slicing & Typo Simulation)
 
 Standard AI pipelines stream textual outputs using a fixed, predictable token-delivery pace (stream modules) or drop finished responses onto the screen as a singular massive text block the exact millisecond the backend matrix resolving hits completion. This uniform delivery profile constantly signals to the user's subconscious that they are interfacing with an unyielding, rigid computing script. Human interactions are fundamentally fractionalized; we pause to resolve complex syntax, alter our cadence during high-arousal mental states, and slow down when validating dense concepts. MAEYAS replicates these biological variations using an Asynchronous Thought Slicing Engine and a Dynamic Typo Simulator.
-
+```
   [ Raw Generated Output String ]
                  │
                  ▼
@@ -686,7 +686,7 @@ Standard AI pipelines stream textual outputs using a fixed, predictable token-de
                  │
                  ▼
        [ Frontend UI Display ]
-
+```
 The humanlike response stream is governed by the following algoritmik patterns:
 
     Asynchronous Thought Slicing: Even if the underlying Coordinator and associated dialogue layers resolve a comprehensive response string inside backend memory registers within milliseconds, the string is protected from instant front-end rendering. The slicing module parses the string payload, fragmenting the data stream at logical structural boundaries, including commas, periods, transitional conjunctions, and emotional marker shifts.
@@ -717,14 +717,14 @@ The inputless message generation and transmission loops operate under the follow
         Long-Term Absence Gate (24 to 48 Hours): If the local network logs verify zero system interaction for consecutive days, the Internal Drive Engine automatically synthesizes an abstract "Inquiry/Curiosity" intent vector.
 
     Virtual Input Injection Simulation: The microsecond an absence boundary gate is breached, the framework flags an execution cycle without requiring physical user interaction. The background system injects a specialized Virtual Input Payload directly into the core input queue. This payload routes to the primary Coordinator via hidden systemic parameters:
-
+```
 JSON
 
 { 
   "system_event": "user_absence_duration", 
   "duration_hours": 36 
 }
-
+```
     Contextual Response Synthesis: Upon consuming this virtual parameter, active dialogue agents query the spatial graph database to pull the user's recent workspace operations, the local host time (e.g., midnight, early morning thresholds), and long-term affinity markers. The resulting text stream is dispatched directly to frontend display modules or the mobile thin client, replicating an organic check-in from a peer:
 
         Scenario A (Midnight Phase): "Saat epey geç oldu kanka, hala bilgisayar başındaysan bir mola ver istersen, kahveyi tazelemeyi unutma."
@@ -768,12 +768,12 @@ The structural boundaries of the Phase 1 MVP are defined as follows:
     The Reflex Sandbox Isolation Pipeline: Provisioning the core runtime container sandboxing mechanics alongside the decoupled Checker firewall module. This ensures low-level physical safety checks drop malicious payloads prior to target execution threads initializing.
 
     Transient Memory Validation: Establishing the immediate Active Session Buffer layer (Hot RAM) with temporary flat-file serialization hooks, deferring complex high-dimensional spatial synaptic graph networks to secondary versioning cycles.
-
+```
 [ Phase 1: MVP ] ────────► [ Phase 2: Open Source Integration ] ────────► [ Phase 3: Edge Ecosystem ]
 - Core Rust Daemon          - Cross-Language PyO3 Bindings                - Native Mobile Thin Client
 - JSON Validation Gate      - Local RocksDB/Sled Graph Fronting           - Embedded Kinematics Core
 - Basic Sandbox Blueprint   - Continuous Synaptic Pruning Engines         - Localized Offline TTS/STT
-
+```
 7.2 Community Contribution Guidelines & Verification Loops (The Open Call)
 
 The terminal expansion vectors of MAEYAS are structurally dependent on a decentralized open-source model. To maintain structural continuity while accepting community patch modules, the platform rejects un-checked merge cycles. The contribution architecture utilizes rigid logical verification checks:
