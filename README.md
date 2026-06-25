@@ -121,7 +121,7 @@ These hidden system arbiters maintain ecosystem resilience, data protection, and
 * **The Counter-Intelligence Module (Honeypot/Shadow Agent):** Senses malicious input injection or jailbreak attempts and redirects the session into a safe, isolated simulation pool.
 * **The Emergency Agent:** Triggered exclusively by extreme boundary violations (e.g., severe self-harm verification or systemic crime planning), assembling encrypted localized cryptographic logs to trigger direct localized crisis alerts.
 
-
+```
 [ Raw User Input ]
                     │
                     ▼
@@ -142,7 +142,7 @@ These hidden system arbiters maintain ecosystem resilience, data protection, and
 ┌─────────────────┐
 │  Output Buffer  │
 └─────────────────┘
-
+```
 
 #### Technical Logic of Decoupled Fragmentation
 No single agent maintains compile-time or runtime dependencies on the internal codebase of another module. If a custom module crashes or is removed from the storage array entirely, the remaining system maintains absolute runtime integrity.
